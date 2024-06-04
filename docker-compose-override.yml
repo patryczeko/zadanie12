@@ -1,0 +1,30 @@
+services:
+
+  nginx:
+     ports:
+      - "4001:80"
+
+  mysql:
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_user_password
+    secrets:
+      - mysql_root_password
+      - mysql_user_password
+
+  phpmyadmin:
+    ports:
+      - "6001:80"
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+    secrets:
+       - mysql_root_password
+
+secrets:
+  mysql_root_password:
+    file: ./mysql_root_password.txt
+  mysql_user_password:
+    file: ./mysql_user_password.txt

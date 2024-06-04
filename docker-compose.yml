@@ -1,0 +1,36 @@
+services:
+  nginx:
+    image: nginx:1.26.0
+   
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./www:/var/www/html
+    networks:
+      - frontend
+      - backend
+
+  php:
+    image: php:7.4-fpm
+    volumes:
+      - ./www:/var/www/html
+    networks:
+      - backend
+
+  mysql:
+    image: mysql:5.7.34
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - backend
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.2.1
+    networks:
+      - backend
+
+volumes:
+  mysql-data:
+
+networks:
+  frontend:
+  backend:
